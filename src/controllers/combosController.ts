@@ -4,7 +4,7 @@ import _ from 'underscore';
 import DATABASE from '../database/database';
 
 import { ComboResModel, ComboFinalResModel, ProductOfComboResModel, ComboByIdReqModel } from '../models/combosModels';
-import { userModel } from '../models/usersModels';
+import { UserResModel } from '../models/usersModels';
 
 class CombosController {
 
@@ -82,7 +82,7 @@ class CombosController {
         const productsToCombo: any[] = req.body.products;
 
         const pickerCombo = ['nameUser', 'nameCombo', 'descriptCombo', 'stateCombo', 'idImg', 'idCategory', 'idTrademark', 'idPackage', 'costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ivaPpv', 'ppvWIva'];
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
@@ -134,7 +134,7 @@ class CombosController {
     }
     // public newProductOfCombo(req: Request, res: Response) {}
     public updateAllCombo(req: Request, res: Response) {
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
@@ -204,7 +204,7 @@ class CombosController {
 
     }
     public updateOnlyCombo(req: Request, res: Response) {
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
@@ -231,7 +231,7 @@ class CombosController {
 
     }
     public updateStateCombo(req: Request, res: Response) {
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
@@ -258,7 +258,7 @@ class CombosController {
     }
 
     public deleteCombo(req: Request, res: Response) {
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
