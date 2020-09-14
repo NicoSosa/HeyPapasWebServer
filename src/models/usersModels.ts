@@ -13,3 +13,12 @@ export interface UserResModel {
 export interface UserByIdReqModel {
     idUser: number;
 }
+
+export interface UserByNameReqModel {
+    nameUser: string;
+    passUser: string;
+}
+
+export interface UserAuthResModel {
+    token: string;
+}

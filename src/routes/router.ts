@@ -7,10 +7,11 @@ import productsRoutes from "../routes/productsRoutes";
 import trademarksRoutes from "../routes/trademarksRoutes";
 import usersRoutes from "../routes/usersRoutes";
 import rolesRoutes from "../routes/rolesRoutes";
+import authRoutes from "../routes/authRoutes";
 
 export default class Routes {
   setRoutes(app: express.Application): void {
-    app.use("/auth", categorysRoutes);
+    app.use("/auth", authRoutes);
     app.use("/categorys", categorysRoutes);
     app.use("/combos", combosRoutes);
     app.use("/packages", packagesRoutes);

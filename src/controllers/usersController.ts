@@ -2,7 +2,11 @@ import { Response, Request } from "express";
 import DATABASE from "../database/database";
 import _ from "underscore";
 
-import { UserResModel, UserByIdReqModel } from "../models/usersModels";
+import {
+  UserResModel,
+  UserByIdReqModel,
+  UserByNameReqModel,
+} from "../models/usersModels";
 
 class UsersController {
   public getUsers(req: Request, res: Response) {
@@ -42,6 +46,25 @@ class UsersController {
     });
   }
 
+  public getUserByName(req: Request, res: Response) {
+    const dataReq: UserByNameReqModel = req.body;
+    const query = `SELECT * FROM user_view WHERE actIndUser = true AND nameUser = '${dataReq.nameUser}'`;
+
+    DATABASE.excQuery(query, (err: any, user: UserResModel[]) => {
+      if (err) {
+        res.status(400).json({
+          ok: false,
+          error: err,
+        });
+      } else {
+        res.json({
+          ok: true,
+          data: user,
+        });
+      }
+    });
+  }
+
   public newUser(req: Request, res: Response) {
     const pickerNew = [
       "nameUser",
@@ -59,7 +82,7 @@ class UsersController {
     const dataToSql = _.pick(sendData, pickerNew);
     const procedureName = "users_new";
     const query = DATABASE.getQuery(procedureName, dataToSql);
-    
+
     DATABASE.excQuery(query, (err: any, user: UserResModel[]) => {
       if (err) {
         res.status(400).json({
