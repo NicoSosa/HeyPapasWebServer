@@ -10,6 +10,7 @@ import rolesRoutes from "../routes/rolesRoutes";
 
 export default class Routes {
   setRoutes(app: express.Application): void {
+    app.use("/auth", categorysRoutes);
     app.use("/categorys", categorysRoutes);
     app.use("/combos", combosRoutes);
     app.use("/packages", packagesRoutes);

@@ -44,8 +44,8 @@ class UsersController {
 
   public newUser(req: Request, res: Response) {
     const pickerNew = [
-      "_nameUser",
       "nameUser",
+      "nameNewUser",
       "passUser",
       "idUserRole",
       "actIndUser",
@@ -53,13 +53,13 @@ class UsersController {
     ];
     const userReq: UserResModel = (<any>req).user;
     const sendData = {
-      _nameUser: userReq.nameUser,
+      nameUser: userReq.nameUser,
       ...req.body,
     };
     const dataToSql = _.pick(sendData, pickerNew);
     const procedureName = "users_new";
     const query = DATABASE.getQuery(procedureName, dataToSql);
-
+    
     DATABASE.excQuery(query, (err: any, user: UserResModel[]) => {
       if (err) {
         res.status(400).json({
@@ -78,9 +78,9 @@ class UsersController {
 
   public updateUser(req: Request, res: Response) {
     const pickerUpdate = [
-      "_nameUser",
-      "idUser",
       "nameUser",
+      "idUser",
+      "nameNewUser",
       "passUser",
       "idUserRole",
       "actIndUser",
@@ -88,7 +88,7 @@ class UsersController {
     ];
     const userReq: UserResModel = (<any>req).user;
     const sendData = {
-      _nameUser: userReq.nameUser,
+      nameUser: userReq.nameUser,
       ...req.body,
     };
     const dataToSql = _.pick(sendData, pickerUpdate);
