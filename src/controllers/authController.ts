@@ -28,7 +28,7 @@ class AuthController {
           let token = jwt.sign(
             {
               user: {
-                username: userFromDB.nameUser,
+                nameUser: userFromDB.nameUser,
                 codUser: userFromDB.codUser,
                 codUserRole: userFromDB.codUserRole,
                 descriptUserRole: userFromDB.descriptUserRole,
