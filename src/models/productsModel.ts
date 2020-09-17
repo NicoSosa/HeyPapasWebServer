@@ -8,8 +8,6 @@ export interface ProductResModel {
     nameProduct: string;
     descriptProduct: string;
     state: number;
-    idImg: number;
-    codImg: string;
     urlImg: string;
     idCategory: number;
     codCategory: string;

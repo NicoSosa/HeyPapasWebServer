@@ -7,8 +7,6 @@ export interface PackagesResModel {
     codPackage: string;
     namePackage: string;
     descriptPackage: string;
-    idImg: string;
-    codImg: string;
     urlImg: string;
     costPackage: number;
     state: boolean;

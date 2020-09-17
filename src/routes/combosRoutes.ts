@@ -14,7 +14,6 @@ class CombosRoutes {
         this.router.get('/', combosController.getCombos );
         this.router.post('/byId', combosController.getComboById );
         this.router.post('/', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], combosController.newCombo );
-        // this.router.post('/prodOfCombo', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], combosController.newProductOfCombo );
         this.router.put('/updateAll', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], combosController.updateAllCombo );
         this.router.put('/updateOnlyData', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], combosController.updateOnlyCombo );
         this.router.put('/updateState', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], combosController.updateStateCombo );
