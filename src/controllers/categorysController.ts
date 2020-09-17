@@ -4,7 +4,7 @@ import _ from 'underscore';
 import DATABASE from '../database/database';
 
 import { CategoryResModel, CategoryByIdReqModel } from '../models/categorysModels';
-import { userModel } from '../models/usersModels';
+import { UserResModel } from '../models/usersModels';
 
 class CategorysController {
 
@@ -47,7 +47,7 @@ class CategorysController {
 
     public newCategory(req: Request, res: Response) {
         const pickerNew = ['nameUser', 'nameCategory', 'descriptCategory'];
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
@@ -74,7 +74,7 @@ class CategorysController {
 
     public updateCategory(req: Request, res: Response) {
         const pickerUpdate = ['nameUser', 'idCategory','nameCategory', 'descriptCategory'];
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
@@ -101,7 +101,7 @@ class CategorysController {
 
     public deleteCategory(req: Request, res: Response) {
         const pickerDelete = ['nameUser', 'idCategory'];
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};

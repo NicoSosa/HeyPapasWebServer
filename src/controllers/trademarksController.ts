@@ -4,7 +4,7 @@ import _ from 'underscore';
 import DATABASE from '../database/database';
 
 import { TrademarksResModel, TrademarkByIdReqModel } from '../models/trademarksModels';
-import { userModel } from '../models/usersModels';
+import { UserResModel } from '../models/usersModels';
 
 class TrademarksController {
 
@@ -47,7 +47,7 @@ class TrademarksController {
 
     public newTrademark(req: Request, res: Response) {
         const pickerNew = ['nameUser', 'nameTrademark', 'descriptTrademark'];
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
@@ -74,7 +74,7 @@ class TrademarksController {
 
     public updateTrademark(req: Request, res: Response) {
         const pickerNew = ['nameUser', 'idTrademark', 'nameTrademark', 'descriptTrademark'];
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
@@ -101,7 +101,7 @@ class TrademarksController {
 
     public deleteTrademark(req: Request, res: Response) {
         const pickerNew = ['nameUser', 'idTrademark'];
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};

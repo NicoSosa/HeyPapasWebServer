@@ -6,7 +6,7 @@ import _ from 'underscore';
 import DATABASE from '../database/database';
 
 import { PackagesResModel, PackageByIdReqModel } from '../models/packagesModels';
-import { userModel } from '../models/usersModels';
+import { UserResModel } from '../models/usersModels';
 
 class PackagesController {
 
@@ -48,7 +48,7 @@ class PackagesController {
     }
     public newPackage(req: Request, res: Response) {
         const pickerNew = ['nameUser', 'namePackage', 'descriptPackage', 'urlImg', 'costPackage', 'state'];
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
@@ -75,7 +75,7 @@ class PackagesController {
 
     public updatePackage(req: Request, res: Response) {
         const pickerNew = ['nameUser', 'idPackage', 'namePackage', 'descriptPackage', 'urlImg', 'costPackage', 'state'];
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
@@ -102,7 +102,7 @@ class PackagesController {
 
     public updateStatePackage(req: Request, res: Response) {
         const pickerNew = ['nameUser', 'idPackage', 'statePackage'];
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
@@ -129,7 +129,7 @@ class PackagesController {
 
     public deletePackage(req: Request, res: Response) {
         const pickerNew = ['nameUser', 'idPackage'];
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};

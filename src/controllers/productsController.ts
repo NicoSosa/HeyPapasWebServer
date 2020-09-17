@@ -3,7 +3,7 @@ import { Response, Request } from 'express';
 import _ from 'underscore';
 import DATABASE from '../database/database';
 import { ProductByIdReqModel, ProductResModel } from '../models/productsModel';
-import { userModel } from '../models/usersModels';
+import { UserResModel } from '../models/usersModels';
 
 class ProductsController {
 
@@ -47,7 +47,7 @@ class ProductsController {
 
     public newProduct(req: Request, res: Response) {
         const pickerNew = ['nameUser', 'nameProduct', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage', 'costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ivaPpv', 'ppv'];
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
@@ -74,7 +74,7 @@ class ProductsController {
 
     public updateAllProduct(req: Request, res: Response) {
         const pickerNew = ['nameUser', 'idProduct', 'nameProduct', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage', 'idPrice', 'costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ivaPpv', 'ppv'];
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
@@ -101,7 +101,7 @@ class ProductsController {
 
     public updateOnlyProduct(req: Request, res: Response) {
         const pickerNew = ['nameUser', 'idProduct', 'nameProduct', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark'];
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
@@ -128,7 +128,7 @@ class ProductsController {
 
     public updateStateProduct(req: Request, res: Response) {
         const pickerNew = ['nameUser', 'idProduct', 'state'];
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
@@ -155,7 +155,7 @@ class ProductsController {
 
     public deleteProduct(req: Request, res: Response) {
         const pickerNew = ['nameUser', 'idProduct', 'idPrice']; 
-        const userReq: userModel = (<any>req).user;
+        const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
