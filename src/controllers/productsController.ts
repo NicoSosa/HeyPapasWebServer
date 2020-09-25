@@ -46,7 +46,7 @@ class ProductsController {
     }
 
     public newProduct(req: Request, res: Response) {
-        const pickerNew = ['nameUser', 'nameProduct', 'descriptProduct', 'stateProduct', 'idImg', 'idCategory', 'idTrademark', 'idPackage', 'costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ivaPpv', 'ppvWIva'];
+        const pickerNew = ['nameUser', 'nameProduct', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage', 'costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ivaPpv', 'ppv'];
         const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
@@ -55,9 +55,7 @@ class ProductsController {
         
         const procedureName = 'products_new';
         const query = DATABASE.getQuery(procedureName,dataToSql);
-
-        console.log(query);
-
+        
         DATABASE.excQuery( query, (err: any, products: ProductResModel[] ) => {
             if ( err ) { 
                 res.status(400).json({
@@ -75,7 +73,7 @@ class ProductsController {
     }
 
     public updateAllProduct(req: Request, res: Response) {
-        const pickerNew = ['nameUser', 'idProduct', 'nameProduct', 'descriptProduct', 'stateProduct', 'idImg', 'idCategory', 'idTrademark', 'idPackage', 'idPrice', 'costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ivaPpv', 'ppvWIva'];
+        const pickerNew = ['nameUser', 'idProduct', 'nameProduct', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage', 'idPrice', 'costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ivaPpv', 'ppv'];
         const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
@@ -102,7 +100,7 @@ class ProductsController {
     }
 
     public updateOnlyProduct(req: Request, res: Response) {
-        const pickerNew = ['nameUser', 'idProduct', 'nameProduct', 'descriptProduct', 'stateProduct', 'idImg', 'idCategory', 'idTrademark'];
+        const pickerNew = ['nameUser', 'idProduct', 'nameProduct', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark'];
         const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
@@ -129,7 +127,7 @@ class ProductsController {
     }
 
     public updateStateProduct(req: Request, res: Response) {
-        const pickerNew = ['nameUser', 'idProduct', 'stateProduct'];
+        const pickerNew = ['nameUser', 'idProduct', 'state'];
         const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,

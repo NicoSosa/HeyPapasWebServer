@@ -1,4 +1,6 @@
 import { Response, Request } from 'express';
+import path from 'path';
+import fs from 'fs';
 import _ from 'underscore';
 
 import DATABASE from '../database/database';
@@ -45,7 +47,7 @@ class PackagesController {
         });
     }
     public newPackage(req: Request, res: Response) {
-        const pickerNew = ['nameUser', 'namePackage', 'descriptPackage', 'idImg', 'cost_package', 'statePack'];
+        const pickerNew = ['nameUser', 'namePackage', 'descriptPackage', 'urlImg', 'costPackage', 'state'];
         const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
@@ -72,13 +74,13 @@ class PackagesController {
     }
 
     public updatePackage(req: Request, res: Response) {
-        const pickerNew = ['nameUser', 'idPackage', 'namePackage', 'descriptPackage', 'idImg', 'cost_package', 'statePack'];
+        const pickerNew = ['nameUser', 'idPackage', 'namePackage', 'descriptPackage', 'urlImg', 'costPackage', 'state'];
         const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
         const dataToSql = _.pick(sendData, pickerNew);
-        
+
         const procedureName = 'packages_update';
         const query = DATABASE.getQuery(procedureName,dataToSql);
 
@@ -97,6 +99,34 @@ class PackagesController {
             }
         });        
     }
+
+    public updateStatePackage(req: Request, res: Response) {
+        const pickerNew = ['nameUser', 'idPackage', 'statePackage'];
+        const userReq: UserResModel = (<any>req).user;
+        const sendData = { 
+            nameUser: userReq.nameUser,
+            ...req.body};
+        const dataToSql = _.pick(sendData, pickerNew);
+        
+        const procedureName = 'packages_updateState';
+        const query = DATABASE.getQuery(procedureName,dataToSql);
+
+        DATABASE.excQuery( query, (err: any, packages: PackagesResModel[] ) => {
+            if ( err ) { 
+                res.status(400).json({
+                    ok: false,
+                    error: err,
+                });
+            } else {
+                res.json({
+                    ok: true,
+                    msg: `El empaque se ha modificado.`,
+                    data: packages
+                });
+            }
+        });
+    }
+
     public deletePackage(req: Request, res: Response) {
         const pickerNew = ['nameUser', 'idPackage'];
         const userReq: UserResModel = (<any>req).user;

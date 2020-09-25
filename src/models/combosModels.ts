@@ -8,8 +8,6 @@ export interface ComboResModel {
     nameCombo: string;
     descriptCombo: string;
     state: number;
-    idImg: number;
-    codImg: string;
     urlImg: string;
     idCategory: number;
     codCategory: string;

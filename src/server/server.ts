@@ -3,6 +3,7 @@ import cors from 'cors';
 
 import serverConfig from './serverConfig';
 import Routes from '../routes/router';
+import fileUpload from 'express-fileupload';
 
 
 export default class Server {
@@ -25,6 +26,7 @@ export default class Server {
         this.app.use(cors());        				            // Para habilitar las peticiones al servidor de MySql
         this.app.use(express.json());                           // Método para poder aceptar los datos en formato json. Esto nos permite recibir los datos que son enviados a através del cuerpo de la peticion en el "raw".. a su vez, (en el post-man) debemos aclarar en el header KEY: Content-Type, VALUE: application/json
         this.app.use(express.urlencoded( {extended: false} ));  // Configuración para enviar desde formularios HTML
+        this.app.use(fileUpload());
         
         this.routes.setRoutes( this.app );                      // Seteo las rutas de los controladores
     }

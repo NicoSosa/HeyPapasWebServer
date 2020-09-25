@@ -11,10 +11,11 @@ class PackagesRoutes {
     }
 
     config( ): void {
-        this.router.get('/', packagesController.getPackages );
+        this.router.get('/', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], packagesController.getPackages );
         this.router.post('/byId', packagesController.getPackageById );
         this.router.post('/', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], packagesController.newPackage );
         this.router.put('/update', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], packagesController.updatePackage );
+        // this.router.put('/updateState', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], packagesController.updateStatePackage );
         this.router.put('/delete', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], packagesController.deletePackage );
     }
 }
