@@ -81,7 +81,7 @@ class CombosController {
         const pickerProduct = ['nameUser','idCombo','idProduct','quantity'];
         const productsToCombo: any[] = req.body.products;
 
-        const pickerCombo = ['nameUser', 'nameCombo', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage', 'costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ivaPpv', 'ppv'];
+        const pickerCombo = ['nameUser', 'nameCombo', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage', 'costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ppv'];
         const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
@@ -162,7 +162,7 @@ class CombosController {
         const pickerUpdateProduct = ['nameUser','idCombo','idProduct','quantity'];
         const productsToCombo: any[] = req.body.products;
 
-        const pickerCombo = ['nameUser', 'idCombo', 'nameCombo', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage', 'idPrice','costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ivaPpv', 'ppv'];
+        const pickerCombo = ['nameUser', 'idCombo', 'nameCombo', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage', 'idPrice','costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ppv'];
         const dataToSql = _.pick(sendData, pickerCombo);
         const procedureName = 'combos_updateAll'; 
         const query = DATABASE.getQuery(procedureName,dataToSql);

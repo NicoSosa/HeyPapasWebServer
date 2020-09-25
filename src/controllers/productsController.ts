@@ -46,7 +46,7 @@ class ProductsController {
     }
 
     public newProduct(req: Request, res: Response) {
-        const pickerNew = ['nameUser', 'nameProduct', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage', 'costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ivaPpv', 'ppv'];
+        const pickerNew = ['nameUser', 'nameProduct', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage', 'costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ppv'];
         const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
@@ -73,7 +73,7 @@ class ProductsController {
     }
 
     public updateAllProduct(req: Request, res: Response) {
-        const pickerNew = ['nameUser', 'idProduct', 'nameProduct', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage', 'idPrice', 'costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ivaPpv', 'ppv'];
+        const pickerNew = ['nameUser', 'idProduct', 'nameProduct', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage', 'idPrice', 'costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ppv'];
         const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
