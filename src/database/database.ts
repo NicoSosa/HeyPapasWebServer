@@ -14,10 +14,10 @@ export default class DATABASE {
 
     constructor() {        
         this.cnn = mysql.createConnection({  
-            host: 	  'localhost',
-            user: 	  'root',
-            password: 'formula1',
-            database: 'heypapasdb',
+            host: 	  'mercadona.dyndns.org',
+            user: 	  'mercadonamarketsas2020',
+            password: 'mercadonamarketsasfrancoformula1!',
+            database: 'mercadona',
             port:     3306
         });
 
