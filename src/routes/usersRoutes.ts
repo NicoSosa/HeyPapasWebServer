@@ -15,6 +15,7 @@ class UsersRoutes {
         this.router.post('/byId', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], usersController.getUserById );
         this.router.post('/', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], usersController.newUser );
         this.router.put('/update', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], usersController.updateUser );
+        this.router.put('/updatenopass', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], usersController.updateUserNoPass );
         this.router.put('/delete', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], usersController.deleteUser );
     }
 }

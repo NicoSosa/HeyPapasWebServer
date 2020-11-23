@@ -135,6 +135,41 @@ class UsersController {
     });
   }
 
+  public updateUserNoPass(req: Request, res: Response) {
+    const pickerUpdate = [
+      "nameUser",
+      "idUser",
+      "nameNewUser",
+      "idUserRole",
+      "actIndUser",
+      "avatarUrl",
+    ];
+    const userReq: UserResModel = (<any>req).user;
+    const sendData = {
+      nameUser: userReq.nameUser,
+      ...req.body,
+    };
+    const dataToSql = _.pick(sendData, pickerUpdate);
+
+    const procedureName = "users_update_nopass";
+    const query = DATABASE.getQuery(procedureName, dataToSql);
+
+    DATABASE.excQuery(query, (err: any, user: UserResModel[]) => {
+      if (err) {
+        res.status(400).json({
+          ok: false,
+          error: err,
+        });
+      } else {
+        res.json({
+          ok: true,
+          msg: `El usuario se ha modificado.`,
+          data: user,
+        });
+      }
+    });
+  }
+
   public deleteUser(req: Request, res: Response) {
     const pickerNew = ["nameUser", "idUser"];
     const userReq: UserResModel = (<any>req).user;
