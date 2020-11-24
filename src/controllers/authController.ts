@@ -10,6 +10,8 @@ class AuthController {
   public getUserByName(req: Request, res: Response) {
     const dataReq: UserByNameReqModel = req.body;
     const query = `SELECT * FROM user_view WHERE actIndUser = true AND nameUser = '${dataReq.nameUser}'`;
+    console.log(query);
+    
 
     DATABASE.excQuery(query, (err: any, user: UserResModel[]) => {
       if (err) {
