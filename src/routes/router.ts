@@ -10,6 +10,8 @@ import productsRoutes from '../routes/productsRoutes';
 import rolesRoutes from "../routes/rolesRoutes";
 import trademarksRoutes from '../routes/trademarksRoutes';
 import usersRoutes from '../routes/usersRoutes';
+import typePricesRoutes from '../routes/typePricesRoutes';
+
 export default class Routes {
 
     setRoutes( app: express.Application ): void {
@@ -23,5 +25,6 @@ export default class Routes {
         app.use("/roles", rolesRoutes);
         app.use('/trademarks',trademarksRoutes); 
         app.use('/users',usersRoutes);
+        app.use('/typePrices',typePricesRoutes);
     }
 }
