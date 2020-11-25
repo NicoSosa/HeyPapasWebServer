@@ -56,6 +56,9 @@ class TypePricesController {
         const procedureName = 'type_prices_new';
         const query = DATABASE.getQuery(procedureName,dataToSql);
 
+        console.log(query);
+        
+
         DATABASE.excQuery( query, (err: any, typePrices: TypePricesResModel[] ) => {
             if ( err ) { 
                 res.status(400).json({

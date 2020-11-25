@@ -7,3 +7,11 @@ export interface TypePricesResModel {
     nameTypePrice: string;
     actIndTypePrice: boolean;
 }
+
+export interface NewTypePriceReqModel {
+    nameTypePrice: string;
+}
+
+export interface DeleteTypePriceReqModel {
+    idTypePrice: number;
+}

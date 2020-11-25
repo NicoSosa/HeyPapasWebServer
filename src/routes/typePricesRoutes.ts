@@ -15,7 +15,7 @@ class TypePricesRoutes {
         this.router.get('/', typePricesController.getTypePrices );
         this.router.post('/byId', typePricesController.getTypePriceById );
         this.router.post('/', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], typePricesController.newTypePrice );
-        // this.router.put('/delete', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], typePricesController.deleteTrademark );
+        this.router.put('/delete', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], typePricesController.deleteTypePrice );
     }
 }
 const typePricesRoutes = new TypePricesRoutes();
