@@ -45,8 +45,10 @@ class ProductsController {
         });
     }
 
+        
+
     public newProduct(req: Request, res: Response) {
-        const pickerNew = ['nameUser', 'nameProduct', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage', 'costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ppv'];
+        const pickerNew = ['nameUser', 'nameProduct', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage'];
         const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
@@ -55,7 +57,7 @@ class ProductsController {
         
         const procedureName = 'products_new';
         const query = DATABASE.getQuery(procedureName,dataToSql);
-        
+
         DATABASE.excQuery( query, (err: any, products: ProductResModel[] ) => {
             if ( err ) { 
                 res.status(400).json({
@@ -73,7 +75,7 @@ class ProductsController {
     }
 
     public updateAllProduct(req: Request, res: Response) {
-        const pickerNew = ['nameUser', 'idProduct', 'nameProduct', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage', 'idPrice', 'costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ppv'];
+        const pickerNew = ['nameUser', 'idProduct', 'nameProduct', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage'];
         const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
@@ -154,7 +156,7 @@ class ProductsController {
     }
 
     public deleteProduct(req: Request, res: Response) {
-        const pickerNew = ['nameUser', 'idProduct', 'idPrice']; 
+        const pickerNew = ['nameUser', 'idProduct']; 
         const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,

@@ -1,3 +1,4 @@
+import { PricesResModel } from './pricesModels';
 export interface ProductByIdReqModel {
     idProduct: number;
 }
@@ -19,13 +20,18 @@ export interface ProductResModel {
     codPackage: string;
     namePackag: string;
     costPackage: number;
-    idPrice: number;
-    costWithoutIva: number;
-    ivaCost: number;
-    costWithIva: number;
-    profitability: number;
-    ppvWOIva: number;
-    ivaPpv: number;
-    ppvWIva: number;
+    actIndProduct: number;
+}
+
+export interface ProductFinalResModel extends ProductResModel {
+    prices: PricesResModel[];
+}
+
+export interface ProductSimpleWithPrice extends PricesResModel {
+    idProduct: number;
+    codProduct: string;
+    nameProduct: string;
+    state: number;
+    urlImg: string;
     actIndProduct: number;
 }

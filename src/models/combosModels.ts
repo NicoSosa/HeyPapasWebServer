@@ -1,3 +1,4 @@
+import { PricesResModel } from './pricesModels';
 export interface ComboByIdReqModel {
     idCombo: number;
 }
@@ -19,13 +20,6 @@ export interface ComboResModel {
     codPackage: string;
     namePackage: string;
     costPackage: number;
-    costWithoutIva: number;
-    ivaCost: number;
-    costWithIva: number;
-    profitability: number;
-    ppvWOIva: number;
-    ivaPpv: number;
-    ppvWIva: number;
     actIndCombo: number;
 }
 
@@ -39,17 +33,19 @@ export interface ProductOfComboResModel {
     state: number;
     urlImg: string;
     actIndProduct: number;
-    costWithoutIva: number;
-    ivaCost: number;
-    costWithIva: number;
-    profitability: number;
-    ppvWOIva: number;
-    ivaPpv: number;
-    ppvWIva: number;
     quantity: number;
     subtotal: number;
 }
 
 export interface ComboFinalResModel extends ComboResModel {
     products: ProductOfComboResModel[];
+}
+
+export interface ComboSimpleWithPrice extends PricesResModel {
+    idCombo: number;
+    codCombo: string;
+    nameCombo: string;
+    state: number;
+    urlImg: string;
+    actIndCombo: number;
 }

@@ -43,9 +43,8 @@ export default class DATABASE {
             if ( err ) {
                 callback (err);
             }
-            
 
-            if ( results[0] === undefined || results[0].length === 0 ) {
+            if ( results[0] === undefined || results[0].length === 0 || results === undefined) {
                 callback('El registro solicitado no existe')
             } else {
                 callback(null, results);

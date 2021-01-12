@@ -81,7 +81,7 @@ class CombosController {
         const pickerProduct = ['nameUser','idCombo','idProduct','quantity'];
         const productsToCombo: any[] = req.body.products;
 
-        const pickerCombo = ['nameUser', 'nameCombo', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage', 'costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ppv'];
+        const pickerCombo = ['nameUser', 'nameCombo', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage'];
         const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
@@ -90,10 +90,6 @@ class CombosController {
         
         const procedureName = 'combos_new';
         const query = DATABASE.getQuery(procedureName,dataToSql);
-
-        console.log(sendData);
-        console.log(query);
-        console.log(productsToCombo);
 
         DATABASE.excQuery( query, (err: any, combosWithOutProd: any[][] ) => {
             if ( err ) { 
@@ -114,8 +110,6 @@ class CombosController {
                     const procedureName2 = 'combos_product_new';
                     const query2 = DATABASE.getQuery(procedureName2, dataToSql2);
 
-                    console.log(dataToSql2);
-                    console.log(query2);
                     DATABASE.excQuery( query2, (err: any, prodOfCombo: any ) => {
                         if ( err ) { 
                             res.status(400).json({
@@ -162,7 +156,7 @@ class CombosController {
         const pickerUpdateProduct = ['nameUser','idCombo','idProduct','quantity'];
         const productsToCombo: any[] = req.body.products;
 
-        const pickerCombo = ['nameUser', 'idCombo', 'nameCombo', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage', 'idPrice','costWOIva', 'ivaCost', 'costWIva', 'profit', 'ppvWOIva', 'ppv'];
+        const pickerCombo = ['nameUser', 'idCombo', 'nameCombo', 'description', 'state', 'urlImg', 'idCategory', 'idTrademark', 'idPackage', 'idPrice'];
         const dataToSql = _.pick(sendData, pickerCombo);
         const procedureName = 'combos_updateAll'; 
         const query = DATABASE.getQuery(procedureName,dataToSql);

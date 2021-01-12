@@ -6,11 +6,12 @@ import combosRoutes from './combosRoutes';
 import imagesRoutes from './imagesRoutes';
 import filesRoutes from './filesRoutes';
 import packagesRoutes from './packagesRoutes';
+import pricesRoutes from './pricesRoutes';
 import productsRoutes from '../routes/productsRoutes';
 import rolesRoutes from "../routes/rolesRoutes";
 import trademarksRoutes from '../routes/trademarksRoutes';
-import usersRoutes from '../routes/usersRoutes';
 import typePricesRoutes from '../routes/typePricesRoutes';
+import usersRoutes from '../routes/usersRoutes';
 
 export default class Routes {
 
@@ -21,10 +22,11 @@ export default class Routes {
         app.use('/uploads',imagesRoutes);
         app.use('/files',filesRoutes);
         app.use('/packages',packagesRoutes);
+        app.use('/prices',pricesRoutes);
         app.use('/products',productsRoutes);
         app.use("/roles", rolesRoutes);
         app.use('/trademarks',trademarksRoutes); 
-        app.use('/users',usersRoutes);
         app.use('/typePrices',typePricesRoutes);
+        app.use('/users',usersRoutes);
     }
 }
