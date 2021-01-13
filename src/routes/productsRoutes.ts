@@ -12,6 +12,7 @@ class ProductsRoutes {
 
     config( ): void {
         this.router.get('/', productsController.getProducts );
+        this.router.get('/withPrices', productsController.getProductsWithPrices );
         this.router.post('/byId', productsController.getProductById );
         this.router.post('/', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], productsController.newProduct );
         this.router.put('/updateAll', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], productsController.updateAllProduct );

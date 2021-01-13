@@ -12,6 +12,7 @@ class CombosRoutes {
 
     config( ): void {
         this.router.get('/', combosController.getCombos );
+        this.router.get('/withPrices', combosController.getCombosWithPrices );
         this.router.post('/byId', combosController.getComboById );
         this.router.post('/', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], combosController.newCombo );
         this.router.put('/updateAll', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], combosController.updateAllCombo );

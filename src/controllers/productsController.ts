@@ -2,8 +2,9 @@ import { Response, Request } from 'express';
 
 import _ from 'underscore';
 import DATABASE from '../database/database';
-import { ProductByIdReqModel, ProductResModel } from '../models/productsModel';
+import { ProductByIdReqModel, ProductResModel, ProductFinalResModel } from '../models/productsModel';
 import { UserResModel } from '../models/usersModels';
+import { PricesResModel } from '../models/pricesModels';
 
 class ProductsController {
 
@@ -21,6 +22,45 @@ class ProductsController {
                 res.json({
                     ok: true,
                     data: products
+                });
+            }
+        });
+    }
+
+    public getProductsWithPrices(req: Request, res: Response) {
+        const query = ` SELECT * FROM product_view WHERE actIndProduct = true ORDER BY nameProduct`;
+
+        DATABASE.excQuery( query, (err: any, productsWithOutPrices: ProductResModel[] ) => {
+            if ( err ) {
+                res.status(400).json({
+                    ok: false,
+                    error: err,
+                });
+            } else {
+                const productLength = productsWithOutPrices.length;
+                let products: ProductFinalResModel[] = [];
+
+                productsWithOutPrices.map( (product, index) => {
+                    const query2 = ` SELECT * FROM product_with_prices_view WHERE actIndPrice = 1 AND idProduct = ${product.idProduct} `;
+                    DATABASE.excQuery( query2, ( err: any, prices: PricesResModel[] ) => {
+                        if ( err ) {
+                            res.status(400).json({
+                                ok: false, 
+                                error: err,
+                            });
+                        } else {
+                            products.push({
+                                ...product,
+                                prices
+                            });
+                        }
+                        if( productLength === index + 1) {
+                            res.json({
+                                ok: true,
+                                data: products
+                            });
+                        }
+                    });
                 });
             }
         });

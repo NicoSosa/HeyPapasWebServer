@@ -37,8 +37,12 @@ export interface ProductOfComboResModel {
     subtotal: number;
 }
 
-export interface ComboFinalResModel extends ComboResModel {
+export interface ComboWithProducts extends ComboResModel {
     products: ProductOfComboResModel[];
+}
+
+export interface ComboFinalResModel extends ComboWithProducts {
+    prices: PricesResModel[];
 }
 
 export interface ComboSimpleWithPrice extends PricesResModel {

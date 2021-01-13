@@ -3,12 +3,51 @@ import _ from 'underscore';
 
 import DATABASE from '../database/database';
 
-import { ComboResModel, ComboFinalResModel, ProductOfComboResModel, ComboByIdReqModel } from '../models/combosModels';
+import { ComboResModel, ComboWithProducts, ProductOfComboResModel, ComboByIdReqModel, ComboFinalResModel } from '../models/combosModels';
 import { UserResModel } from '../models/usersModels';
 
 class CombosController {
 
     public getCombos(req: Request, res: Response) {
+        const query = ` SELECT * FROM combo_view WHERE actIndCombo = true ORDER BY nameCombo`;
+
+        DATABASE.excQuery( query, (err: any, combosWithOuthProds: ComboResModel[] ) => {
+            if ( err ) {
+                res.status(400).json({
+                    ok: false,
+                    error: err,
+                });
+            } else {
+                const comboLength = combosWithOuthProds.length;
+                let combos: ComboWithProducts[] = [];
+
+                combosWithOuthProds.map( (combo, index) => {
+                    const query2 = ` SELECT * FROM product_of_combo_view WHERE idCombo = ${combo.idCombo} `;
+                    DATABASE.excQuery( query2, (err: any, products: ProductOfComboResModel[] ) => {
+                        if ( err ) {
+                            res.status(400).json({
+                                ok: false, 
+                                error: err,
+                            });
+                        } else {
+                            combos.push({
+                                ...combo, 
+                                products});    
+                        }
+                        if( comboLength === index + 1) {
+                            console.log(combos); 
+                            res.json({
+                                ok: true,
+                                data: combos
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+    public getCombosWithPrices(req: Request, res: Response) {
         const query = ` SELECT * FROM combo_view WHERE actIndCombo = true ORDER BY nameCombo`;
 
         DATABASE.excQuery( query, (err: any, combosWithOuthProds: ComboResModel[] ) => {
@@ -30,12 +69,25 @@ class CombosController {
                                 error: err,
                             });
                         } else {
-                            combos.push({...combo, products});
-                        }
-                        if( comboLength === index + 1) {
-                            res.json({
-                                ok: true,
-                                data: combos
+                            const query3 = `SELECT * FROM combo_with_prices_view WHERE actIndPrice = 1 AND idCombo = ${combo.idCombo}`;
+                            DATABASE.excQuery( query3, (err: any, prices: any[] ) => {
+                                if ( err ) {
+                                    res.status(400).json({
+                                        ok: false, 
+                                        error: err,
+                                    });
+                                } else {
+                                    combos.push({
+                                        ...combo, 
+                                        products,
+                                        prices});    
+                                }
+                                if( comboLength === index + 1) {
+                                    res.json({
+                                        ok: true,
+                                        data: combos
+                                    });
+                                }
                             });
                         }
                     });
