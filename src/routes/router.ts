@@ -9,6 +9,7 @@ import packagesRoutes from './packagesRoutes';
 import pricesRoutes from './pricesRoutes';
 import productsRoutes from '../routes/productsRoutes';
 import rolesRoutes from "../routes/rolesRoutes";
+import managementStatisticsRoutes from './managementStatisticsRoutes';
 import trademarksRoutes from '../routes/trademarksRoutes';
 import typePricesRoutes from '../routes/typePricesRoutes';
 import usersRoutes from '../routes/usersRoutes';
@@ -21,6 +22,7 @@ export default class Routes {
         app.use('/combos',combosRoutes);
         app.use('/uploads',imagesRoutes);
         app.use('/files',filesRoutes);
+        app.use("/managementStatistics", managementStatisticsRoutes);
         app.use('/packages',packagesRoutes);
         app.use('/prices',pricesRoutes);
         app.use('/products',productsRoutes);
