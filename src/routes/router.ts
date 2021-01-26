@@ -11,7 +11,7 @@ import productsRoutes from '../routes/productsRoutes';
 import rolesRoutes from "../routes/rolesRoutes";
 import managementStatisticsRoutes from './managementStatisticsRoutes';
 import trademarksRoutes from '../routes/trademarksRoutes';
-import typePricesRoutes from '../routes/typePricesRoutes';
+import typeServicesRoutes from './typeServicesRoutes';
 import usersRoutes from '../routes/usersRoutes';
 
 export default class Routes {
@@ -28,7 +28,7 @@ export default class Routes {
         app.use('/products',productsRoutes);
         app.use("/roles", rolesRoutes);
         app.use('/trademarks',trademarksRoutes); 
-        app.use('/typePrices',typePricesRoutes);
+        app.use('/typeServices',typeServicesRoutes);
         app.use('/users',usersRoutes);
     }
 }

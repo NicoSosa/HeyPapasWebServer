@@ -32,5 +32,5 @@ export interface NewPriceReqModel {
     ivaPpv: number;
     ppvWIva: number;
     state: boolean;
-    idTypePrice: number;
+    idTypeService: number;
 }

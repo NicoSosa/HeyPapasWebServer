@@ -3,15 +3,15 @@ import _ from 'underscore';
 
 import DATABASE from '../database/database';
 
-import { TypePriceByIdReqModel, TypePricesResModel } from '../models/typePriceModels';
+import { TypeServiceByIdReqModel, TypeServicesResModel } from '../models/typeServiceModels';
 import { UserResModel } from '../models/usersModels';
 
-class TypePricesController {
+class TypeServicesController {
 
-    public getTypePrices(req: Request, res: Response) {
-        const query = ` SELECT * FROM type_price_view WHERE actIndTypePrice = true ORDER BY nameTypePrice `;
+    public getTypeServices(req: Request, res: Response) {
+        const query = ` SELECT * FROM type_service_view WHERE actIndTypeService = true ORDER BY nameTypeService `;
 
-        DATABASE.excQuery( query, (err: any, typePrices: TypePricesResModel[] ) => {
+        DATABASE.excQuery( query, (err: any, typeServices: TypeServicesResModel[] ) => {
             if ( err ) {
                 res.status(400).json({
                     ok: false,
@@ -20,17 +20,17 @@ class TypePricesController {
             } else {
                 res.json({
                     ok: true,
-                    data: typePrices
+                    data: typeServices
                 });
             }
         });
     }
 
-    public getTypePriceById(req: Request, res: Response) {
-        const dataReq: TypePriceByIdReqModel = req.body;
-        const query = ` SELECT * FROM type_price_view WHERE actIndTypePrice = true AND idTypePrice = ${dataReq.idTypePrice} `;
+    public getTypeServiceById(req: Request, res: Response) {
+        const dataReq: TypeServiceByIdReqModel = req.body;
+        const query = ` SELECT * FROM type_service_view WHERE actIndTypeService = true AND idTypeService = ${dataReq.idTypeService} `;
 
-        DATABASE.excQuery( query, (err: any, typePrices: TypePricesResModel[] ) => {
+        DATABASE.excQuery( query, (err: any, typeServices: TypeServicesResModel[] ) => {
             if ( err ) {
                 res.status(400).json({
                     ok: false,
@@ -39,27 +39,27 @@ class TypePricesController {
             } else {
                 res.json({
                     ok: true,
-                    data: typePrices
+                    data: typeServices
                 });
             }
         });
     }
 
-    public newTypePrice(req: Request, res: Response) {
-        const pickerNew = ['nameUser', 'nameTypePrice'];
+    public newTypeService(req: Request, res: Response) {
+        const pickerNew = ['nameUser', 'nameTypeService'];
         const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
         const dataToSql = _.pick(sendData, pickerNew);
         
-        const procedureName = 'type_prices_new';
+        const procedureName = 'type_services_new';
         const query = DATABASE.getQuery(procedureName,dataToSql);
 
         console.log(query);
         
 
-        DATABASE.excQuery( query, (err: any, typePrices: TypePricesResModel[] ) => {
+        DATABASE.excQuery( query, (err: any, typeServices: TypeServicesResModel[] ) => {
             if ( err ) { 
                 res.status(400).json({
                     ok: false,
@@ -68,25 +68,25 @@ class TypePricesController {
             } else {
                 res.json({
                     ok: true,
-                    msg: `El tipo de precio se ha creado.`,
-                    data: typePrices
+                    msg: `El tipo de servicio se ha creado.`,
+                    data: typeServices
                 });
             }
         });
     }
 
-    public deleteTypePrice(req: Request, res: Response) {
-        const pickerNew = ['nameUser', 'idTypePrice'];
+    public deleteTypeService(req: Request, res: Response) {
+        const pickerNew = ['nameUser', 'idTypeService'];
         const userReq: UserResModel = (<any>req).user;
         const sendData = { 
             nameUser: userReq.nameUser,
             ...req.body};
         const dataToSql = _.pick(sendData, pickerNew);
         
-        const procedureName = 'type_prices_delete';
+        const procedureName = 'type_services_delete';
         const query = DATABASE.getQuery(procedureName,dataToSql);
 
-        DATABASE.excQuery( query, (err: any, typePrices: TypePricesResModel[] ) => {
+        DATABASE.excQuery( query, (err: any, typeServices: TypeServicesResModel[] ) => {
             if ( err ) { 
                 res.status(400).json({
                     ok: false,
@@ -95,8 +95,8 @@ class TypePricesController {
             } else {
                 res.json({
                     ok: true,
-                    msg: `El tipo de precio se ha eliminado.`,
-                    data: typePrices
+                    msg: `El tipo de servicio se ha eliminado.`,
+                    data: typeServices
                 });
             }
         });
@@ -104,5 +104,5 @@ class TypePricesController {
 
 }
 
-const typePricesController = new TypePricesController();
-export default typePricesController; 
+const typeServicesController = new TypeServicesController();
+export default typeServicesController; 

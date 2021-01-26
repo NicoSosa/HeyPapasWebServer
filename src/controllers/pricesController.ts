@@ -68,7 +68,7 @@ class PricesController {
     }
     
     public newPrice(req: Request, res: Response) {
-        const pickerNew = ['nameUser', 'idProd', 'codProd', 'costWithOutIva', 'ivaCost', 'costWithIva', 'profit', 'ppvWOIva', 'ivaPpv', 'ppvWIva', 'state', 'idTypePrice'];
+        const pickerNew = ['nameUser', 'idProd', 'codProd', 'costWithOutIva', 'ivaCost', 'costWithIva', 'profit', 'ppvWOIva', 'ivaPpv', 'ppvWIva', 'state', 'idTypeService'];
         const userReq: UserResModel = (<any>req).user;
         const sendData = {
             nameUser: userReq.nameUser,
@@ -97,7 +97,7 @@ class PricesController {
     }
 
     public updatePrice(req: Request, res: Response) {
-        const pickerNew = ['nameUser', 'idProd', 'codProd', 'idPrice', 'costWithOutIva', 'ivaCost', 'costWithIva', 'profit', 'ppvWOIva', 'ivaPpv', 'ppvWIva', 'state', 'idTypePrice'];
+        const pickerNew = ['nameUser', 'idProd', 'codProd', 'idPrice', 'costWithOutIva', 'ivaCost', 'costWithIva', 'profit', 'ppvWOIva', 'ivaPpv', 'ppvWIva', 'state', 'idTypeService'];
         const userReq: UserResModel = (<any>req).user;
         const sendData = {
             nameUser: userReq.nameUser,

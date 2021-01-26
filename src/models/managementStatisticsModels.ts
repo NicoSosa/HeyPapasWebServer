@@ -17,8 +17,8 @@ export interface productStatisticsResModel {
 export interface trademarkStatisticsResModel {
     trademarkCount: number
 }
-export interface typePriceStatisticsResModel {
-    typePriceCount: number
+export interface TypeServiceStatisticsResModel {
+    typeServiceCount: number
 }
 export interface userStatisticsResModel {
     userCount: number,

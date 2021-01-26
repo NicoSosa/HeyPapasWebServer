@@ -92,8 +92,8 @@ class ManagementStatisticsController {
             }
         });
     }
-    public getTypepricesStatistics(req: Request, res: Response) {
-        const query = `SELECT COUNT(*) AS typePriceCount FROM heypapasdb.type_price_view WHERE actIndTypePrice = TRUE;`;
+    public getTypeServicesStatistics(req: Request, res: Response) {
+        const query = `SELECT COUNT(*) AS typeServiceCount FROM heypapasdb.type_service_view WHERE actIndTypeService = TRUE;`;
 
         DATABASE.excQuery( query, (err: any, categorys: packageStatisticsResModel ) => {
             if ( err ) {

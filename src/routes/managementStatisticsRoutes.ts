@@ -14,7 +14,7 @@ class ManagementStatisticsRoutes {
         this.router.get('/packages', managementStatisticsController.getPackagesStatistics );
         this.router.get('/products', managementStatisticsController.getProductsStatistics );
         this.router.get('/trademarks', managementStatisticsController.getTrademarksStatistics );
-        this.router.get('/typePrices', managementStatisticsController.getTypepricesStatistics );
+        this.router.get('/typeServices', managementStatisticsController.getTypeServicesStatistics );
         this.router.get('/users', managementStatisticsController.getUsersStatistics );
     }
 } 
