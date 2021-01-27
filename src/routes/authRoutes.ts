@@ -14,6 +14,7 @@ class AuthRoutes {
     config( ): void {
         // this.router.get('/', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], usersController.getUserByName );
         this.router.post('/', [], authController.getUserByName );
+        this.router.post('/adminAccess', [], authController.getUserCode );
     }
 }
 

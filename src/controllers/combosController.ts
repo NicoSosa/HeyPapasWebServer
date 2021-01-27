@@ -35,7 +35,6 @@ class CombosController {
                                 products});    
                         }
                         if( comboLength === index + 1) {
-                            console.log(combos); 
                             res.json({
                                 ok: true,
                                 data: combos

@@ -11,7 +11,6 @@ class AuthController {
     const dataReq: UserByNameReqModel = req.body;
     const query = `SELECT * FROM user_view WHERE actIndUser = true AND nameUser = '${dataReq.nameUser}'`;
     console.log(query);
-    
 
     DATABASE.excQuery(query, (err: any, user: UserResModel[]) => {
       if (err) {
@@ -47,7 +46,45 @@ class AuthController {
         } else {
           res.json({
             ok: false,
-            data: "Contraseña o password invalidos",
+            data: "Contraseña o nombre de usuario invalidos",
+          });
+        }
+      }
+    });
+  }
+
+  public getUserCode(req: Request, res: Response) {
+    const dataReq: UserByNameReqModel = req.body;
+
+    const query = `SELECT * FROM user_view WHERE actIndUser = true AND nameUser = '${dataReq.nameUser}'`;
+
+    DATABASE.excQuery(query, (err: any, user: UserResModel[]) => {
+      if (err) {
+        res.status(400).json({
+          ok: false,
+          error: err,
+        });
+      } else {
+        const userFromDB: UserResModel = user[0];
+
+        if (userFromDB.passUser === req.body.passUser) {
+          const idUserRole: number = userFromDB.idUserRole;
+
+          if (idUserRole === 1 || idUserRole === 4 || idUserRole === 5) {
+            res.json({
+              ok: true,
+              data: userFromDB.codUser,
+            });
+          }else {
+            res.status(401).json({
+              ok: false,
+              data: "No tienes permisos.",
+            });
+          }
+        } else {
+          res.json({
+            ok: false,
+            data: "Contraseña o nombre de usuario invalidos",
           });
         }
       }
