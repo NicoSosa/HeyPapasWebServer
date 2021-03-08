@@ -6,6 +6,7 @@ import DATABASE from "../database/database";
 import {
   OrdersResModel,
   NewOrderPayMethodReqModel,
+  TypeOrderStatusResModel,
 } from "../models/ordersModels";
 import { UserResModel } from "../models/usersModels";
 
@@ -162,6 +163,25 @@ class OrdersController {
             }
           });
         }); //End ForEach
+      }
+    });
+  }
+
+  public getTypeOrderStatus(req: Request, res: Response) {
+    const query = ` SELECT * FROM type_order_status_view `;
+
+    DATABASE.excQuery(query, (err: any, typeOrderStatus: TypeOrderStatusResModel[]) => {
+      if (err) {
+        res.status(400).json({
+          ok: false,
+          error: err,
+        });
+      } else {
+        
+        res.json({
+          ok: true,
+          data: typeOrderStatus,
+        });
       }
     });
   }

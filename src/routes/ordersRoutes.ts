@@ -12,7 +12,8 @@ class OrdersRoutes {
     }
 
     config( ): void {
-        this.router.get('/', ordersController.getOrders );
+        this.router.get('/', [authMiddleware.verifyToken], ordersController.getOrders );
+        this.router.get('/typeOrderStatus', ordersController.getTypeOrderStatus );
         // this.router.post('/byId', typeServicesController.getTypeServiceById );
         // this.router.post('/', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], typeServicesController.newTypeService );
          this.router.post('/', [authMiddleware.verifyToken], ordersController.newOrder);

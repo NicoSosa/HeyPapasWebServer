@@ -32,3 +32,10 @@ export interface NewOrderPayMethodReqModel {
     amountPayment: number;
     managementPaymentMethodNumber: string;
 }
+
+
+export interface TypeOrderStatusResModel {
+    idTypeStatus: number;
+    nameTypeStatus: string;
+    byDefaultTypeStatus: boolean;
+}
