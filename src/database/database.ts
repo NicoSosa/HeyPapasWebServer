@@ -31,7 +31,11 @@ export default class DATABASE {
     static getQuery( procedureName: string, dataSend: Object ): string {
         let stringOfData = '';
         const array = _.map(dataSend, (value, key) => {
-            return `'${value}'`;
+            if(value || value === 0){
+                return `'${value}'`;
+            } else {
+                return `NULL`;
+            }
         })
 
         const query: string = `call ${procedureName}(${array})`;

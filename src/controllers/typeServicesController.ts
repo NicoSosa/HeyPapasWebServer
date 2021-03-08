@@ -55,10 +55,7 @@ class TypeServicesController {
         
         const procedureName = 'type_services_new';
         const query = DATABASE.getQuery(procedureName,dataToSql);
-
-        console.log(query);
         
-
         DATABASE.excQuery( query, (err: any, typeServices: TypeServicesResModel[] ) => {
             if ( err ) { 
                 res.status(400).json({

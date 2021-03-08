@@ -13,6 +13,7 @@ import managementStatisticsRoutes from './managementStatisticsRoutes';
 import trademarksRoutes from '../routes/trademarksRoutes';
 import typeServicesRoutes from './typeServicesRoutes';
 import usersRoutes from '../routes/usersRoutes';
+import ordersRoutes from "./ordersRoutes";
 
 export default class Routes {
 
@@ -30,5 +31,6 @@ export default class Routes {
         app.use('/trademarks',trademarksRoutes); 
         app.use('/typeServices',typeServicesRoutes);
         app.use('/users',usersRoutes);
+        app.use('/orders', ordersRoutes);
     }
 }

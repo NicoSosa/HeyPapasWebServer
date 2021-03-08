@@ -127,7 +127,6 @@ class CombosController {
         });
     }
 
-
     public newCombo(req: Request, res: Response) {
         const pickerProduct = ['nameUser','idCombo','idProduct','quantity'];
         const productsToCombo: any[] = req.body.products;
@@ -254,6 +253,7 @@ class CombosController {
         });
 
     }
+
     public updateOnlyCombo(req: Request, res: Response) {
         const userReq: UserResModel = (<any>req).user;
         const sendData = { 
@@ -281,6 +281,7 @@ class CombosController {
         });
 
     }
+
     public updateStateCombo(req: Request, res: Response) {
         const userReq: UserResModel = (<any>req).user;
         const sendData = { 
