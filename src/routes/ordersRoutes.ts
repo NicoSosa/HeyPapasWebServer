@@ -12,11 +12,13 @@ class OrdersRoutes {
     }
 
     config( ): void {
-        this.router.get('/', [authMiddleware.verifyToken], ordersController.getOrders );
+        this.router.get('/', [authMiddleware.verifyToken], ordersController.getOrders);
         this.router.get('/typeOrderStatus', ordersController.getTypeOrderStatus );
         // this.router.post('/byId', typeServicesController.getTypeServiceById );
         // this.router.post('/', [authMiddleware.verifyToken, authMiddleware.verifyAdminRole], typeServicesController.newTypeService );
          this.router.post('/', [authMiddleware.verifyToken], ordersController.newOrder);
+         this.router.post('/orderStatusById', [authMiddleware.verifyToken], ordersController.changeOrderStatusById);
+         this.router.get('/kitchen', [authMiddleware.verifyToken], ordersController.getOrdersForKitchen);
     }
 }
 const ordersRoutes = new OrdersRoutes();

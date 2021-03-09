@@ -35,3 +35,12 @@ export interface ProductSimpleWithPrice extends PricesResModel {
     urlImg: string;
     actIndProduct: number;
 }
+
+export interface ProductSimple {
+    idProduct: number;
+    codProduct: string;
+    nameProduct: string;
+    state: number;
+    urlImg: string;
+    actIndProduct: number;
+}
