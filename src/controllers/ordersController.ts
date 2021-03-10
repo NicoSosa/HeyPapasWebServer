@@ -291,7 +291,7 @@ class OrdersController {
                     error: err,
                   });
                 } else {
-                  const query4 = ` SELECT idOrder, codProdOrCombo, quantity FROM order_detail_view WHERE idOrder = ${idOrder} AND actIndOrderDetail = true`;
+                  const query4 = ` SELECT idOrder, codProdOrCombo, unitPrice, quantity FROM order_detail_view WHERE idOrder = ${idOrder} AND actIndOrderDetail = true`;
                   DATABASE.excQuery(
                     query4,
                     (err: any, products: ProductsForKitchenResModel[]) => {

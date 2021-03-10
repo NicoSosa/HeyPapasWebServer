@@ -34,7 +34,7 @@ export default class Server {
     start() {
         this.app.listen( this.app.get('port'), () => {
             const portNum = this.app.get('port');
-            console.log(`Escuchando el puerto ${portNum}`);
+            console.log(`Escuchando el puerto: ${portNum}`);
         });
     }
 } 

@@ -30,6 +30,7 @@ export interface OrderKitchenResModel extends OrderRowModel {
 export interface ProductsForKitchenResModel {
   idProduct: string;
   codProdOrCombo: string;
+  unitPrice: number;
   quantity: number;
 }
 export interface ProductsForKitchenDescriptResModel {
