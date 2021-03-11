@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 
+
+
 import serverConfig from './serverConfig';
 import Routes from '../routes/router';
 import fileUpload from 'express-fileupload';
@@ -10,10 +12,17 @@ export default class Server {
     public app: express.Application;
     private routes = new Routes(); 
 
+    private server;
+    private io;
+
     constructor () {
         console.log('constructor del SERVER');
         this.app = express();
         this.config();
+
+        //Sockets
+        this.server = require('http').createServer(this.app);
+        this.io = require('socket.io')(this.server);
     }
     
     static init() {
@@ -32,9 +41,39 @@ export default class Server {
     }
 
     start() {
-        this.app.listen( this.app.get('port'), () => {
+        this.server.listen( this.app.get('port'), () => {
             const portNum = this.app.get('port');
             console.log(`Escuchando el puerto: ${portNum}`);
         });
     }
+
+    sockets() {
+        this.io.on('connection', (socket:any) => {
+            console.log("cliente conectado");
+            
+            console.log(socket);
+            
+            socket.emit('test-event', 'here is some data')
+            
+            socket.on('disconnect', () => {
+                console.log('Cliente desconectado');
+                
+            });
+
+            socket.on('saludo-servidor', (payload:any) => {
+                console.log(payload);
+                
+            });
+
+        });
+        
+    }
+
+
+
+
+
+
+
+
 } 

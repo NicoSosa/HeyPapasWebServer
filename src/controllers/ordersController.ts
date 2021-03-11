@@ -345,7 +345,7 @@ class OrdersController {
 
                                     if (orders.length === index + 1) {
                                       res.json({
-                                        ok: false,
+                                        ok: true,
                                         data: orderList,
                                       });
                                     }
@@ -394,7 +394,7 @@ class OrdersController {
 
                                     if (orders.length === index + 1) {
                                       res.json({
-                                        ok: false,
+                                        ok: true,
                                         data: orderList,
                                       });
                                     }

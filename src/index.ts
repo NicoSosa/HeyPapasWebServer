@@ -6,3 +6,4 @@ const server = Server.init();
 DATABASE.instance;
 
 server.start();
+server.sockets();
