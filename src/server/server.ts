@@ -5,10 +5,13 @@ import serverConfig from "./serverConfig";
 import Routes from "../routes/router";
 import fileUpload from "express-fileupload";
 import { OrderRowModel } from "../models/ordersModels";
+import SocketManager from '../sockets/socketManager';
+import SocketsManager from '../sockets/socketManager';
 
 export default class Server {
   public app: express.Application;
   private routes = new Routes();
+  private socketManager = new SocketsManager();
 
   private server;
   private io;
@@ -57,15 +60,7 @@ export default class Server {
         //console.log(payload);
       });
 
-      socket.on("new-order-created", (orderId: number) => {
-        console.log("Orden N° " + orderId + " creada ");
-
-        this.io.emit("new-order-created-detected", orderId);
-      });
-
-      socket.on("order-status-changed", (orderToChangeStatus: OrderRowModel) => {
-        this.io.emit("order-status-changed-detected", orderToChangeStatus);
-      });
+      this.socketManager.setAllSockets(this.io, socket);
     });
   }
 }
