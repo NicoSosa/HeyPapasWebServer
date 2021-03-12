@@ -27,6 +27,10 @@ export interface OrderKitchenResModel extends OrderRowModel {
   products: any[];
 }
 
+export interface OrderCashCheckResModel extends OrderKitchenResModel {
+  paymethods: OrderPayMethodResModel[];
+}
+
 export interface ProductsForKitchenResModel {
   idProduct: string;
   codProdOrCombo: string;
@@ -66,6 +70,17 @@ export interface NewOrderPayMethodReqModel {
   idPaymentMethod: number;
   amountPayment: number;
   managementPaymentMethodNumber: string;
+}
+
+export interface OrderPayMethodResModel {
+  idPaymentMethod: number;
+  idOrder: number;
+  namePaymentMethod: string;
+  descripPaymentMethod: string;
+  amountPayment: number;
+  serviceManagementNumber: string;
+  createDateOrder: Date;
+  actIndOrder: boolean;
 }
 
 export interface TypeOrderStatusResModel {

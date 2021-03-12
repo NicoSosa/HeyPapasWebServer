@@ -12,9 +12,11 @@ import {
   OrderUpdateStatusReqModel,
   ProductsForKitchenResModel,
   ProductsForKitchenDescriptResModel,
+  OrderByIdReqModel,
+  OrderCashCheckResModel,
+  OrderPayMethodResModel,
 } from "../models/ordersModels";
 import { UserResModel } from "../models/usersModels";
-import { ProductSimple } from "../models/productsModel";
 
 class OrdersController {
   public getOrders(req: Request, res: Response) {
@@ -178,6 +180,7 @@ class OrdersController {
                       procedureName3,
                       dataToSql3
                     );
+                    console.log(query3);
 
                     DATABASE.excQuery(
                       query3,
@@ -187,15 +190,19 @@ class OrdersController {
                             ok: false,
                             error: err,
                           });
-                        }
-                        if (payMethodsLength === indexPay + 1) {
-                          res
-                            .status(200)
-                            .json({
-                              ok: true,
-                              msg: "La orden fue creada correctamente",
-                            })
-                            .status(200);
+                        } else {
+                          console.log(payMethodsOfOrder[0][0]);
+
+                          if (payMethodsLength === indexPay + 1) {
+                            res
+                              .status(200)
+                              .json({
+                                ok: true,
+                                data: idOrder,
+                                msg: "La orden fue creada correctamente",
+                              })
+                              .status(200);
+                          }
                         }
                       }
                     );
@@ -404,6 +411,356 @@ class OrdersController {
                             );
                           }
                         });
+                      }
+                    }
+                  );
+                }
+              });
+            }
+          });
+        });
+      }
+    });
+  }
+
+  public getOrdersForKitchenById(req: Request, res: Response) {
+    let orderList: OrderRowModel[] = [];
+
+    const dataReq: OrderByIdReqModel = req.body;
+    const idOrder: number = dataReq.idOrder;
+
+    const query = ` SELECT * FROM order_view WHERE idOrder = ${idOrder} AND actIndOrder = true `;
+
+    console.log(query);
+
+    DATABASE.excQuery(query, (err: any, order: OrdersResModel[]) => {
+      if (err) {
+        res.status(400).json({
+          ok: false,
+          error: err,
+        });
+      } else {
+        console.log(order);
+
+        const idService = order[0].idService;
+
+        const query2 = ` SELECT * FROM type_service_view WHERE idTypeService = ${idService} AND actIndTypeService = true`;
+        console.log(query2);
+
+        DATABASE.excQuery(query2, (err: any, service: any[]) => {
+          if (err) {
+            res.status(400).json({
+              ok: false,
+              error: err,
+            });
+          } else {
+            const nameService = service[0].nameTypeService;
+
+            const query3 = ` SELECT * FROM customer_view WHERE idOrder = ${idOrder} `;
+            DATABASE.excQuery(query3, (err: any, customer: any[]) => {
+              if (err) {
+                res.status(400).json({
+                  ok: false,
+                  error: err,
+                });
+              } else {
+                const query4 = ` SELECT idOrder, codProdOrCombo, unitPrice, quantity FROM order_detail_view WHERE idOrder = ${idOrder} AND actIndOrderDetail = true`;
+                DATABASE.excQuery(
+                  query4,
+                  (err: any, products: ProductsForKitchenResModel[]) => {
+                    if (err) {
+                      res.status(400).json({
+                        ok: false,
+                        error: err,
+                      });
+                    } else {
+                      const productList: ProductsForKitchenResModel[] = products;
+
+                      let productListToReturn: ProductsForKitchenDescriptResModel[] = [];
+
+                      productList.forEach((product, indexProd) => {
+                        if (product.codProdOrCombo.startsWith("PRD")) {
+                          //Es producto singular
+                          const query4 = ` SELECT nameProduct, description FROM product_view WHERE codProduct = '${product.codProdOrCombo}' AND actIndProduct = true`;
+
+                          DATABASE.excQuery(
+                            query4,
+                            (
+                              err: any,
+                              productDes: ProductsForKitchenDescriptResModel[]
+                            ) => {
+                              if (err) {
+                                res.status(400).json({
+                                  ok: false,
+                                  error: err,
+                                });
+                              } else {
+                                const prod = {
+                                  ...product,
+                                  ...productDes[0],
+                                };
+                                productListToReturn.push(prod);
+
+                                if (productList.length === indexProd + 1) {
+                                  const nameCustomer = customer[0].nameCustomer;
+                                  const orderRow: OrderKitchenResModel = {
+                                    idOrder: idOrder,
+                                    timeLimit: order[0].timeLimit,
+                                    customer: nameCustomer || "Anonimo",
+                                    typeService: nameService,
+                                    managementNumber:
+                                      order[0].serviceManagementNumber,
+                                    status: order[0].status,
+                                    products: productListToReturn,
+                                  };
+                                  orderList.push(orderRow);
+
+                                  res.json({
+                                    ok: true,
+                                    data: orderList,
+                                  });
+                                }
+                              }
+                            }
+                          );
+                        }
+
+                        if (product.codProdOrCombo.startsWith("CMB")) {
+                          //Es combo
+                          const query4 = ` SELECT nameCombo, description FROM combo_view WHERE codCombo = '${product.codProdOrCombo}' AND actIndCombo = true`;
+
+                          DATABASE.excQuery(
+                            query4,
+                            (
+                              err: any,
+                              productDes: ProductsForKitchenDescriptResModel[]
+                            ) => {
+                              if (err) {
+                                res.status(400).json({
+                                  ok: false,
+                                  error: err,
+                                });
+                              } else {
+                                const prod = {
+                                  ...product,
+                                  ...productDes[0],
+                                };
+                                productListToReturn.push(prod);
+
+                                if (productList.length === indexProd + 1) {
+                                  const nameCustomer = customer[0].nameCustomer;
+                                  const orderRow: OrderKitchenResModel = {
+                                    idOrder: idOrder,
+                                    timeLimit: order[0].timeLimit,
+                                    customer: nameCustomer || "Anonimo",
+                                    typeService: nameService,
+                                    managementNumber:
+                                      order[0].serviceManagementNumber,
+                                    status: order[0].status,
+                                    products: productListToReturn,
+                                  };
+                                  orderList.push(orderRow);
+
+                                  res.json({
+                                    ok: true,
+                                    data: orderList,
+                                  });
+                                }
+                              }
+                            }
+                          );
+                        }
+                      });
+                    }
+                  }
+                );
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+
+  public getOrdersForCashCheck(req: Request, res: Response) {
+    let orderList: OrderCashCheckResModel[] = [];
+    const query = ` SELECT * FROM order_view WHERE actIndOrder = true ORDER BY createDateOrder `;
+
+    DATABASE.excQuery(query, (err: any, orders: OrdersResModel[]) => {
+      if (err) {
+        res.status(400).json({
+          ok: false,
+          error: err,
+        });
+      } else {
+        orders.forEach((order, index) => {
+          const idOrder = order.idOrder;
+          const idService = order.idService;
+
+          const query2 = ` SELECT * FROM type_service_view WHERE idTypeService = ${idService} AND actIndTypeService = true`;
+          DATABASE.excQuery(query2, (err: any, service: any[]) => {
+            if (err) {
+              res.status(400).json({
+                ok: false,
+                error: err,
+              });
+            } else {
+              const nameService = service[0].nameTypeService;
+
+              const query3 = ` SELECT * FROM customer_view WHERE idOrder = ${idOrder} `;
+              DATABASE.excQuery(query3, (err: any, customer: any[]) => {
+                if (err) {
+                  res.status(400).json({
+                    ok: false,
+                    error: err,
+                  });
+                } else {
+                  const query4 = ` SELECT * FROM payment_of_order_view WHERE idOrder = ${idOrder} `;
+                  DATABASE.excQuery(
+                    query4,
+                    (err: any, paymentMethods: OrderPayMethodResModel[]) => {
+                      if (err) {
+                        res.status(400).json({
+                          ok: false,
+                          error: err,
+                        });
+                      } else {
+                        const paymentMethodsLength = paymentMethods.length;
+                        const payMethodsList: OrderPayMethodResModel[] = paymentMethods;
+
+                        let payMethodsListToReturn: OrderPayMethodResModel[] = [];
+
+                        payMethodsList.forEach((paymethod) => {
+                          payMethodsListToReturn.push({ ...paymethod });
+                        });
+
+                        const query5 = ` SELECT idOrder, codProdOrCombo, unitPrice, quantity FROM order_detail_view WHERE idOrder = ${idOrder} AND actIndOrderDetail = true`;
+                        DATABASE.excQuery(
+                          query5,
+                          (
+                            err: any,
+                            products: ProductsForKitchenResModel[]
+                          ) => {
+                            if (err) {
+                              res.status(400).json({
+                                ok: false,
+                                error: err,
+                              });
+                            } else {
+                              const productList: ProductsForKitchenResModel[] = products;
+                              let productListToReturn: ProductsForKitchenDescriptResModel[] = [];
+
+                              productList.forEach((product, indexProd) => {
+                                if (product.codProdOrCombo.startsWith("PRD")) {
+                                  //Es producto singular
+                                  const query4 = ` SELECT nameProduct, description FROM product_view WHERE codProduct = '${product.codProdOrCombo}' AND actIndProduct = true`;
+
+                                  DATABASE.excQuery(
+                                    query4,
+                                    (
+                                      err: any,
+                                      productDes: ProductsForKitchenDescriptResModel[]
+                                    ) => {
+                                      if (err) {
+                                        res.status(400).json({
+                                          ok: false,
+                                          error: err,
+                                        });
+                                      } else {
+                                        const prod = {
+                                          ...product,
+                                          ...productDes[0],
+                                        };
+                                        productListToReturn.push(prod);
+
+                                        if (
+                                          productList.length ===
+                                          indexProd + 1
+                                        ) {
+                                          const nameCustomer =
+                                            customer[0].nameCustomer;
+
+                                          const orderRow: OrderCashCheckResModel = {
+                                            idOrder: idOrder,
+                                            timeLimit: order.timeLimit,
+                                            customer: nameCustomer || "Anonimo",
+                                            typeService: nameService,
+                                            managementNumber:
+                                              order.serviceManagementNumber,
+                                            status: order.status,
+                                            products: productListToReturn,
+                                            paymethods: payMethodsListToReturn,
+                                          };
+                                          orderList.push(orderRow);
+
+                                          if (orders.length === index + 1) {
+                                            res.json({
+                                              ok: true,
+                                              data: orderList,
+                                            });
+                                          }
+                                        }
+                                      }
+                                    }
+                                  );
+                                }
+
+                                if (product.codProdOrCombo.startsWith("CMB")) {
+                                  //Es combo
+                                  const query4 = ` SELECT nameCombo, description FROM combo_view WHERE codCombo = '${product.codProdOrCombo}' AND actIndCombo = true`;
+
+                                  DATABASE.excQuery(
+                                    query4,
+                                    (
+                                      err: any,
+                                      productDes: ProductsForKitchenDescriptResModel[]
+                                    ) => {
+                                      if (err) {
+                                        res.status(400).json({
+                                          ok: false,
+                                          error: err,
+                                        });
+                                      } else {
+                                        const prod = {
+                                          ...product,
+                                          ...productDes[0],
+                                        };
+                                        productListToReturn.push(prod);
+
+                                        if (
+                                          productList.length ===
+                                          indexProd + 1
+                                        ) {
+                                          const nameCustomer =
+                                            customer[0].nameCustomer;
+                                          const orderRow: OrderCashCheckResModel = {
+                                            idOrder: idOrder,
+                                            timeLimit: order.timeLimit,
+                                            customer: nameCustomer || "Anonimo",
+                                            typeService: nameService,
+                                            managementNumber:
+                                              order.serviceManagementNumber,
+                                            status: order.status,
+                                            products: productListToReturn,
+                                            paymethods: payMethodsListToReturn,
+                                          };
+                                          orderList.push(orderRow);
+
+                                          if (orders.length === index + 1) {
+                                            res.json({
+                                              ok: true,
+                                              data: orderList,
+                                            });
+                                          }
+                                        }
+                                      }
+                                    }
+                                  );
+                                }
+                              });
+                            }
+                          }
+                        );
                       }
                     }
                   );

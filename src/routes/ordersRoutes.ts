@@ -19,6 +19,8 @@ class OrdersRoutes {
          this.router.post('/', [authMiddleware.verifyToken], ordersController.newOrder);
          this.router.post('/orderStatusById', [authMiddleware.verifyToken], ordersController.changeOrderStatusById);
          this.router.get('/kitchen', [authMiddleware.verifyToken], ordersController.getOrdersForKitchen);
+         this.router.post('/kitchenById', [authMiddleware.verifyToken], ordersController.getOrdersForKitchenById);
+         this.router.get('/cashCheck', [authMiddleware.verifyToken], ordersController.getOrdersForCashCheck);
     }
 }
 const ordersRoutes = new OrdersRoutes();
