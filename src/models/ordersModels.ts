@@ -1,4 +1,5 @@
 import { CustomerOrder } from "./customersModels";
+import { SpecialDiscountReqModel } from "./specialDiscountModels";
 
 export interface OrderByIdReqModel {
   idOrder: number;
@@ -29,6 +30,7 @@ export interface OrderKitchenResModel extends OrderRowModel {
 
 export interface OrderCashCheckResModel extends OrderKitchenResModel {
   paymethods: OrderPayMethodResModel[];
+  specialDiscount: SpecialDiscountReqModel[];
 }
 
 export interface ProductsForKitchenResModel {

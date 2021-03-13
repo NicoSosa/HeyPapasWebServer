@@ -16,6 +16,7 @@ import {
   OrderCashCheckResModel,
   OrderPayMethodResModel,
 } from "../models/ordersModels";
+import { SpecialDiscountReqModel } from "../models/specialDiscountModels";
 import { UserResModel } from "../models/usersModels";
 
 class OrdersController {
@@ -607,39 +608,32 @@ class OrdersController {
             } else {
               const nameService = service[0].nameTypeService;
 
-              const query3 = ` SELECT * FROM customer_view WHERE idOrder = ${idOrder} `;
-              DATABASE.excQuery(query3, (err: any, customer: any[]) => {
-                if (err) {
-                  res.status(400).json({
-                    ok: false,
-                    error: err,
-                  });
-                } else {
-                  const query4 = ` SELECT * FROM payment_of_order_view WHERE idOrder = ${idOrder} `;
-                  DATABASE.excQuery(
-                    query4,
-                    (err: any, paymentMethods: OrderPayMethodResModel[]) => {
+              const query3 = ` SELECT codUser, codCuponDiscount, amountDiscount, idTypeDiscount FROM special_discount_view WHERE idOrder = ${idOrder} `;
+              DATABASE.excQuery(
+                query3,
+                (err: any, specialDiscount: SpecialDiscountReqModel[]) => {
+                  if (err) {
+                    res.status(400).json({
+                      ok: false,
+                      error: err,
+                    });
+                  } else {
+                    console.log(specialDiscount);
+                    
+                    const query3 = ` SELECT * FROM customer_view WHERE idOrder = ${idOrder} `;
+                    DATABASE.excQuery(query3, (err: any, customer: any[]) => {
                       if (err) {
                         res.status(400).json({
                           ok: false,
                           error: err,
                         });
                       } else {
-                        const paymentMethodsLength = paymentMethods.length;
-                        const payMethodsList: OrderPayMethodResModel[] = paymentMethods;
-
-                        let payMethodsListToReturn: OrderPayMethodResModel[] = [];
-
-                        payMethodsList.forEach((paymethod) => {
-                          payMethodsListToReturn.push({ ...paymethod });
-                        });
-
-                        const query5 = ` SELECT idOrder, codProdOrCombo, unitPrice, quantity FROM order_detail_view WHERE idOrder = ${idOrder} AND actIndOrderDetail = true`;
+                        const query4 = ` SELECT * FROM payment_of_order_view WHERE idOrder = ${idOrder} `;
                         DATABASE.excQuery(
-                          query5,
+                          query4,
                           (
                             err: any,
-                            products: ProductsForKitchenResModel[]
+                            paymentMethods: OrderPayMethodResModel[]
                           ) => {
                             if (err) {
                               res.status(400).json({
@@ -647,125 +641,171 @@ class OrdersController {
                                 error: err,
                               });
                             } else {
-                              const productList: ProductsForKitchenResModel[] = products;
-                              let productListToReturn: ProductsForKitchenDescriptResModel[] = [];
+                              const paymentMethodsLength =
+                                paymentMethods.length;
+                              const payMethodsList: OrderPayMethodResModel[] = paymentMethods;
 
-                              productList.forEach((product, indexProd) => {
-                                if (product.codProdOrCombo.startsWith("PRD")) {
-                                  //Es producto singular
-                                  const query4 = ` SELECT nameProduct, description FROM product_view WHERE codProduct = '${product.codProdOrCombo}' AND actIndProduct = true`;
-
-                                  DATABASE.excQuery(
-                                    query4,
-                                    (
-                                      err: any,
-                                      productDes: ProductsForKitchenDescriptResModel[]
-                                    ) => {
-                                      if (err) {
-                                        res.status(400).json({
-                                          ok: false,
-                                          error: err,
-                                        });
-                                      } else {
-                                        const prod = {
-                                          ...product,
-                                          ...productDes[0],
-                                        };
-                                        productListToReturn.push(prod);
-
-                                        if (
-                                          productList.length ===
-                                          indexProd + 1
-                                        ) {
-                                          const nameCustomer =
-                                            customer[0].nameCustomer;
-
-                                          const orderRow: OrderCashCheckResModel = {
-                                            idOrder: idOrder,
-                                            timeLimit: order.timeLimit,
-                                            customer: nameCustomer || "Anonimo",
-                                            typeService: nameService,
-                                            managementNumber:
-                                              order.serviceManagementNumber,
-                                            status: order.status,
-                                            products: productListToReturn,
-                                            paymethods: payMethodsListToReturn,
-                                          };
-                                          orderList.push(orderRow);
-
-                                          if (orders.length === index + 1) {
-                                            res.json({
-                                              ok: true,
-                                              data: orderList,
-                                            });
-                                          }
-                                        }
-                                      }
-                                    }
-                                  );
-                                }
-
-                                if (product.codProdOrCombo.startsWith("CMB")) {
-                                  //Es combo
-                                  const query4 = ` SELECT nameCombo, description FROM combo_view WHERE codCombo = '${product.codProdOrCombo}' AND actIndCombo = true`;
-
-                                  DATABASE.excQuery(
-                                    query4,
-                                    (
-                                      err: any,
-                                      productDes: ProductsForKitchenDescriptResModel[]
-                                    ) => {
-                                      if (err) {
-                                        res.status(400).json({
-                                          ok: false,
-                                          error: err,
-                                        });
-                                      } else {
-                                        const prod = {
-                                          ...product,
-                                          ...productDes[0],
-                                        };
-                                        productListToReturn.push(prod);
-
-                                        if (
-                                          productList.length ===
-                                          indexProd + 1
-                                        ) {
-                                          const nameCustomer =
-                                            customer[0].nameCustomer;
-                                          const orderRow: OrderCashCheckResModel = {
-                                            idOrder: idOrder,
-                                            timeLimit: order.timeLimit,
-                                            customer: nameCustomer || "Anonimo",
-                                            typeService: nameService,
-                                            managementNumber:
-                                              order.serviceManagementNumber,
-                                            status: order.status,
-                                            products: productListToReturn,
-                                            paymethods: payMethodsListToReturn,
-                                          };
-                                          orderList.push(orderRow);
-
-                                          if (orders.length === index + 1) {
-                                            res.json({
-                                              ok: true,
-                                              data: orderList,
-                                            });
-                                          }
-                                        }
-                                      }
-                                    }
-                                  );
-                                }
+                              let payMethodsListToReturn: OrderPayMethodResModel[] = [];
+                              
+                              payMethodsList.forEach((paymethod) => {
+                                payMethodsListToReturn.push({ ...paymethod });
                               });
+
+                              const query5 = ` SELECT idOrder, codProdOrCombo, unitPrice, quantity FROM order_detail_view WHERE idOrder = ${idOrder} AND actIndOrderDetail = true`;
+                              DATABASE.excQuery(
+                                query5,
+                                (
+                                  err: any,
+                                  products: ProductsForKitchenResModel[]
+                                ) => {
+                                  if (err) {
+                                    res.status(400).json({
+                                      ok: false,
+                                      error: err,
+                                    });
+                                  } else {
+                                    const productList: ProductsForKitchenResModel[] = products;
+                                    let productListToReturn: ProductsForKitchenDescriptResModel[] = [];
+
+                                    productList.forEach(
+                                      (product, indexProd) => {
+                                        if (
+                                          product.codProdOrCombo.startsWith(
+                                            "PRD"
+                                          )
+                                        ) {
+                                          //Es producto singular
+                                          const query4 = ` SELECT nameProduct, description FROM product_view WHERE codProduct = '${product.codProdOrCombo}' AND actIndProduct = true`;
+
+                                          DATABASE.excQuery(
+                                            query4,
+                                            (
+                                              err: any,
+                                              productDes: ProductsForKitchenDescriptResModel[]
+                                            ) => {
+                                              if (err) {
+                                                res.status(400).json({
+                                                  ok: false,
+                                                  error: err,
+                                                });
+                                              } else {
+                                                const prod = {
+                                                  ...product,
+                                                  ...productDes[0],
+                                                };
+                                                productListToReturn.push(prod);
+
+                                                if (
+                                                  productList.length ===
+                                                  indexProd + 1
+                                                ) {
+                                                  const nameCustomer =
+                                                    customer[0].nameCustomer;
+
+                                                  const orderRow: OrderCashCheckResModel = {
+                                                    idOrder: idOrder,
+                                                    timeLimit: order.timeLimit,
+                                                    customer:
+                                                      nameCustomer || "Anonimo",
+                                                    typeService: nameService,
+                                                    managementNumber:
+                                                      order.serviceManagementNumber,
+                                                    status: order.status,
+                                                    products: productListToReturn,
+                                                    paymethods: payMethodsListToReturn,
+                                                    specialDiscount: specialDiscount,
+                                                  };
+                                                  orderList.push(orderRow);
+
+                                                  if (
+                                                    orders.length ===
+                                                    index + 1
+                                                  ) {
+                                                    res.json({
+                                                      ok: true,
+                                                      data: orderList,
+                                                    });
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          );
+                                        }
+
+                                        if (
+                                          product.codProdOrCombo.startsWith(
+                                            "CMB"
+                                          )
+                                        ) {
+                                          //Es combo
+                                          const query4 = ` SELECT nameCombo, description FROM combo_view WHERE codCombo = '${product.codProdOrCombo}' AND actIndCombo = true`;
+
+                                          DATABASE.excQuery(
+                                            query4,
+                                            (
+                                              err: any,
+                                              productDes: ProductsForKitchenDescriptResModel[]
+                                            ) => {
+                                              if (err) {
+                                                res.status(400).json({
+                                                  ok: false,
+                                                  error: err,
+                                                });
+                                              } else {
+                                                const prod = {
+                                                  ...product,
+                                                  ...productDes[0],
+                                                };
+                                                productListToReturn.push(prod);
+
+                                                if (
+                                                  productList.length ===
+                                                  indexProd + 1
+                                                ) {
+                                                  const nameCustomer =
+                                                    customer[0].nameCustomer;
+                                                  const orderRow: OrderCashCheckResModel = {
+                                                    idOrder: idOrder,
+                                                    timeLimit: order.timeLimit,
+                                                    customer:
+                                                      nameCustomer || "Anonimo",
+                                                    typeService: nameService,
+                                                    managementNumber:
+                                                      order.serviceManagementNumber,
+                                                    status: order.status,
+                                                    products: productListToReturn,
+                                                    paymethods: payMethodsListToReturn,
+                                                    specialDiscount: specialDiscount,
+                                                  };
+                                                  orderList.push(orderRow);
+
+                                                  if (
+                                                    orders.length ===
+                                                    index + 1
+                                                  ) {
+                                                    res.json({
+                                                      ok: true,
+                                                      data: orderList,
+                                                    });
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          );
+                                        }
+                                      }
+                                    );
+                                  }
+                                }
+                              );
                             }
                           }
                         );
                       }
-                    }
-                  );
+                    });
+                  }
                 }
-              });
+              );
             }
           });
         });
